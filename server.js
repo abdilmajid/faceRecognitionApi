@@ -22,7 +22,6 @@ const db = knex({
 
 const app = express();
 
-// app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -61,66 +60,4 @@ app.listen(port, ()=> {
 /image    -> PUT = user
 
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
