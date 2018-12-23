@@ -19,19 +19,15 @@ const db = knex({
   }
 });
 
-db.select('*').from('users').then(data => {
-  console.log(data);
-})
 
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
+app.use(bodyParser.json());
 
 
 app.get('/', (req, res) => {
-  console.log('Server Running - Port:3000');
   db.select('*').from('users')
     .then(data => {
       res.json(data)
@@ -44,8 +40,14 @@ app.post('/register', (req, res) => register.handleRegister(req, res, db, bcrypt
 app.get('/profile/:id', (req, res) => profile.handleProfile(req, res, db));
 app.put('/image', (req, res) => image.handleImage(req, res, db));
 
+app.post('/imageurl', (req, res) => { image.handleApiCall(req, res)})
 
-app.listen(3001);
+
+const port = process.env.PORT || 3003
+
+app.listen(port, ()=> {
+  console.log(`app is running on port ${port}`);
+})
 
 
 
