@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
-const knex = require('knex')
+const knex = require('knex');
+
+
 
 const register = require('./Controller/register');
 const signin = require('./Controller/signin');
@@ -12,10 +14,8 @@ const image = require('./Controller/image');
 const db = knex({
   client: 'pg',
   connection: {
-    host : 'postgresql-acute-47976',
-    user : 'postgres',
-    password : '',
-    database : 'faceapp'
+    host : process.env.DATABASE_URL,
+    ssl: true,
   }
 });
 
