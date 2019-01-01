@@ -26,13 +26,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-// app.get('/', (req, res) => {
-//   db.select('*').from('users')
-//     .then(data => {
-//       res.json(data)
-//     })
-// })
-
 app.get('/', (req, res) => { res.send('It Works') })
 app.post('/signin', (req, res) => signin.handleSignIn(req, res, db, bcrypt))
 app.post('/register', (req, res) => register.handleRegister(req, res, db, bcrypt));
@@ -44,7 +37,7 @@ app.post('/imageurl', (req, res) => { image.handleApiCall(req, res)})
 
 
 
-app.listen(process.env.PORT || 3000, ()=> {
+app.listen(process.env.PORT || 3001, ()=> {
   console.log(`app is running on port ${process.env.PORT}`);
 })
 
