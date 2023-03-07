@@ -18,10 +18,15 @@ const db = knex({
   connection: {
     // connectionString : process.env.DATABASE_URL,
     // ssl: true,
-    host : '127.0.0.1',
-    user: 'abdil',
-    password: '',
-    database: 'faceapp'
+    // host : '127.0.0.1',
+    // user: 'abdil',
+    // password: '',
+    // database: 'faceapp'
+    host : process.env.RDS_HOSTNAME,
+    port : process.env.RDS_PORT,
+    user : process.env.RDS_USERNAME,
+    password : process.env.RDS_PASSWORD,
+    database : process.env.RDS_DATABASE
   }
 });
 
@@ -41,13 +46,29 @@ const db = knex({
 
 
 
-const insertData = async (name,email) => {
+// const insertData = async (name,email) => {
+//   await db('users').insert({
+//     name,
+//     email,
+//     joined: new Date()
+//   })
+//   .returning(['id','name','email'])
+//   .then(function(){
+//     db.select('*')
+//       .from('users')
+//       .then(data=>console.log(data))
+//   })
+//   // return console.log('inse')
+// }
+// // getData()
+
+const insertData = async (name,age) => {
   await db('users').insert({
     name,
-    email,
+    age,
     joined: new Date()
   })
-  .returning(['id','name','email'])
+  .returning(['id','name','age'])
   .then(function(){
     db.select('*')
       .from('users')
@@ -55,6 +76,9 @@ const insertData = async (name,email) => {
   })
   // return console.log('inse')
 }
+
+// insertData('abdil9',98);
+
 // getData()
 
 const deleteData = async (name) => {
@@ -70,7 +94,7 @@ const deleteData = async (name) => {
         // .then(user=> console.log(user))
 }
 
-insertData('majid5','majid5@gmail.com')
+// insertData('majid5','majid5@gmail.com')
 // deleteData('majid3')
 
 const app = express();
