@@ -9,16 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.18.3",
     "clarifai": "^2.9.0",
     "cors": "^2.8.4",
     "dotenv": "^16.0.3",
-    "event-stream": "^4.0.1",
     "express": "^4.16.4",
     "knex": "^2.4.2",
-    "nodemon": "^2.0.21",
     "pg": "^8.10.0"
   },
   "repository": {
@@ -29,5 +26,8 @@
     "url": "https://github.com/abdilmajid/faceRecognitionApi/issues"
   },
   "homepage": "https://github.com/abdilmajid/faceRecognitionApi#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
 }

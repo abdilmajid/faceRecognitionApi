@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const cors = require('cors');
 const knex = require('knex');
 const dotenv = require('dotenv');
@@ -16,17 +16,17 @@ const image = require('./Controller/image');
 const db = knex({
   client: 'pg',
   connection: {
-    // connectionString : process.env.DATABASE_URL,
-    // ssl: true,
-    // host : '127.0.0.1',
-    // user: 'abdil',
-    // password: '',
-    // database: 'faceapp'
-    host : process.env.RDS_HOSTNAME,
-    port : process.env.RDS_PORT,
-    user : process.env.RDS_USERNAME,
-    password : process.env.RDS_PASSWORD,
-    database : process.env.RDS_DATABASE
+    // host : process.env.RDS_HOSTNAME,
+    // port : process.env.RDS_PORT,
+    // user : process.env.RDS_USERNAME,
+    // password : process.env.RDS_PASSWORD,
+    // database : process.env.RDS_DATABASE
+    host: 'localhost',
+    port: 5432,
+    user: 'abdil',
+    password: '',
+    database: 'faceapp'
+
   }
 });
 
@@ -46,29 +46,13 @@ const db = knex({
 
 
 
-// const insertData = async (name,email) => {
-//   await db('users').insert({
-//     name,
-//     email,
-//     joined: new Date()
-//   })
-//   .returning(['id','name','email'])
-//   .then(function(){
-//     db.select('*')
-//       .from('users')
-//       .then(data=>console.log(data))
-//   })
-//   // return console.log('inse')
-// }
-// // getData()
-
-const insertData = async (name,age) => {
+const insertData = async (name,email) => {
   await db('users').insert({
     name,
-    age,
+    email,
     joined: new Date()
   })
-  .returning(['id','name','age'])
+  .returning(['id','name','email'])
   .then(function(){
     db.select('*')
       .from('users')
@@ -76,10 +60,34 @@ const insertData = async (name,age) => {
   })
   // return console.log('inse')
 }
+// // getData()
 
-// insertData('abdil9',98);
+const showAllUsers = () => {
+  db.select('*')
+  .from('users')
+  .then(data=>console.log(data))
+}
+
+
+
+
+const deleteUser = async (name)=>{
+  await db('users')
+        .where('name',name)
+        .del()
+        .then(function(){
+          showAllUsers()
+        })
+}
+
+// deleteUser('abdil99')
+// insertData('abdil99',100);
 
 // getData()
+
+// showAllUsers()
+
+
 
 const deleteData = async (name) => {
   await db('users')
@@ -106,6 +114,7 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => { res.send('It Works') })
 
+
 app.post('/signin', (req, res) => signin.handleSignIn(req, res, db, bcrypt))
 app.post('/register', (req, res) => register.handleRegister(req, res, db, bcrypt));
 app.get('/profile/:id', (req, res) => profile.handleProfile(req, res, db));
@@ -113,7 +122,6 @@ app.put('/image', (req, res) => image.handleImage(req, res, db));
 
 app.post('/imageurl', (req, res) => { image.handleApiCall(req, res)})
 
-// console.log('test')
 
 
 app.listen(process.env.PORT || 3001, ()=> {
