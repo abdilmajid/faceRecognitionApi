@@ -30,80 +30,7 @@ const db = knex({
   }
 });
 
-// db.select('*').from('users').then(data=>console.log(data))
-// SQL -> INSERT INTO users (name, email, joined) VALUES ('abdil','abdil@gmail.com', '2023-01-04 11:35:51');
 
-// db('users').insert({name:'majid',email:'majid@mail.com', joined:'2023-01-04 11:36:55'});
-
-// db('users').insert({name:'majid',email:'majid@mail.com', joined:'2023-01-04'})
-// db('users')
-// .insert({
-//   email: 'majid33@mail.com',
-//   name: 'majid',
-//   joined: new Date()
-// })
-
-
-
-
-const insertData = async (name,email) => {
-  await db('users').insert({
-    name,
-    email,
-    joined: new Date()
-  })
-  .returning(['id','name','email'])
-  .then(function(){
-    db.select('*')
-      .from('users')
-      .then(data=>console.log(data))
-  })
-  // return console.log('inse')
-}
-// // getData()
-
-const showAllUsers = () => {
-  db.select('*')
-  .from('users')
-  .then(data=>console.log(data))
-}
-
-
-
-
-const deleteUser = async (name)=>{
-  await db('users')
-        .where('name',name)
-        .del()
-        .then(function(){
-          showAllUsers()
-        })
-}
-
-// deleteUser('abdil99')
-// insertData('abdil99',100);
-
-// getData()
-
-// showAllUsers()
-
-
-
-const deleteData = async (name) => {
-  await db('users')
-        .where('name',name)
-        .del()
-        .then(function(){
-          db.select('*')
-            .from('users')
-            .then(data=>console.log(data))
-        })
-        
-        // .then(user=> console.log(user))
-}
-
-// insertData('majid5','majid5@gmail.com')
-// deleteData('majid3')
 
 const app = express();
 
@@ -112,31 +39,16 @@ app.use(bodyParser.json());
 
 
 
-app.get('/', (req, res) => { res.send('It Works') })
-
-
+// app.get('/', (req, res) => { res.send('It Works') })
 app.post('/signin', (req, res) => signin.handleSignIn(req, res, db, bcrypt))
 app.post('/register', (req, res) => register.handleRegister(req, res, db, bcrypt));
 app.get('/profile/:id', (req, res) => profile.handleProfile(req, res, db));
 app.put('/image', (req, res) => image.handleImage(req, res, db));
-
 app.post('/imageurl', (req, res) => { image.handleApiCall(req, res)})
-
 
 
 app.listen(process.env.PORT || 3001, ()=> {
   console.log(`app is running on port ${process.env.PORT}`);
 })
 
-
-
-
-      /* API Roadmap
-/         -> res = this is working 
-/signin   -> POST = success/fail
-/register -> POST = userc
-/profile/:id -> GET = user
-/image    -> PUT = user
-
-*/
 
